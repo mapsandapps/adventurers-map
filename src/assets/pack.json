@@ -1,0 +1,16 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "tilemapTiledJSON",
+        "key": "levelMap",
+        "url": "src/assets/levelMap.json"
+      },
+      {
+        "type": "image",
+        "key": "RPGpack_sheet",
+        "url": "src/assets/RPGpack_sheet.png"
+      }
+    ]
+  }
+}

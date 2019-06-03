@@ -4,7 +4,7 @@ export class MenuScene extends Phaser.Scene {
 
   constructor() {
     super({
-      key: "MenuScene"
+      key: 'MenuScene'
     })
   }
 
@@ -15,12 +15,16 @@ export class MenuScene extends Phaser.Scene {
     this.startKey.isDown = false
   }
 
+  preload(): void {
+    this.load.pack('preload', './src/assets/pack.json', 'preload')
+  }
+
   create(): void {
     this.texts.push(
       this.add.text(
         this.sys.canvas.width / 2 - 90,
         this.sys.canvas.height / 2,
-        "PRESS X TO PLAY"
+        'PRESS X TO PLAY'
       )
     )
 
@@ -28,14 +32,14 @@ export class MenuScene extends Phaser.Scene {
       this.add.text(
         this.sys.canvas.width / 2 - 90,
         this.sys.canvas.height / 2 - 60,
-        "ADVENTURER'S MAP"
+        'ADVENTURER\'S MAP'
       )
     )
   }
 
   update(): void {
     if (this.startKey.isDown) {
-      this.scene.start("GameScene")
+      this.scene.start('GameScene')
     }
   }
 }
