@@ -1,18 +1,26 @@
 import "phaser";
-import { MainScene } from "./scenes/mainScene";
+import { GameScene } from "./scenes/game-scene";
+import { MenuScene } from "./scenes/menu-scene";
 
 // main game configuration
 const config: GameConfig = {
-  width: 800,
-  height: 600,
+  width: 640,
+  height: 480,
   type: Phaser.AUTO,
   parent: "game",
-  scene: MainScene,
+  scene: [MenuScene, GameScene],
+  input: {
+    keyboard: true
+  },
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 200 }
+      gravity: { y: 0 }
     }
+  },
+  render: {
+    pixelArt: false,
+    antialias: true
   }
 };
 
@@ -20,6 +28,10 @@ const config: GameConfig = {
 export class Game extends Phaser.Game {
   constructor(config: GameConfig) {
     super(config);
+  }
+
+  preload(): void {
+    this.scene.start("MenuScene")
   }
 }
 
