@@ -4,8 +4,8 @@ import { MenuScene } from "./scenes/menu-scene";
 
 // main game configuration
 const config: GameConfig = {
-  width: 640,
-  height: 480,
+  width: 800,
+  height: 600,
   type: Phaser.AUTO,
   parent: "game",
   scene: [MenuScene, GameScene],

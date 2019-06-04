@@ -32,6 +32,11 @@ export class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.layer)
 
     this.cameras.main.startFollow(this.player)
+
+    this.cameras.add(596, 0, 370, 370)
+      .setName('mini')
+      .setOrigin(0, 0)
+      .setZoom(0.1)
   }
 
   update(): void {
