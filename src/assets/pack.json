@@ -15,6 +15,11 @@
         "type": "image",
         "key": "player",
         "url": "src/assets/player.png"
+      },
+      {
+        "type": "image",
+        "key": "exit",
+        "url": "src/assets/exit.png"
       }
     ]
   }

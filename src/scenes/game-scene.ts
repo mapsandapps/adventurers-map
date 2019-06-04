@@ -1,3 +1,4 @@
+import { Exit } from '../objects/exit'
 import { Player } from '../objects/player'
 
 export class GameScene extends Phaser.Scene {
@@ -5,6 +6,7 @@ export class GameScene extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap
   private tileset: Phaser.Tilemaps.Tileset
 
+  private exit: Exit
   private player: Player
 
   constructor() {
@@ -22,14 +24,10 @@ export class GameScene extends Phaser.Scene {
     this.layer = this.map.createStaticLayer('Map', this.tileset, 0, 0)
     this.layer.setCollisionByProperty({ collide: true })
 
-    this.player = new Player({
-      scene: this,
-      x: 128,
-      y: 128,
-      key: 'player'
-    })
+    this.convertObjects()
 
     this.physics.add.collider(this.player, this.layer)
+    this.physics.add.collider(this.player, this.exit, this.exitCallback)
 
     this.cameras.main.startFollow(this.player)
 
@@ -41,5 +39,35 @@ export class GameScene extends Phaser.Scene {
 
   update(): void {
     this.player.update()
+  }
+
+  private convertObjects(): void {
+    const objects = this.map.getObjectLayer('Objects').objects as any[]
+
+    objects.forEach(object => {
+      if (object.name === 'Player') {
+        this.player = new Player({
+          scene: this,
+          x: object.x,
+          y: object.y,
+          key: 'player'
+        })
+      } else if (object.name === 'Enemy') {
+        // TODO
+      } else if (object.name === 'Exit') {
+        this.exit = new Exit({
+          scene: this,
+          x: object.x,
+          y: object.y,
+          key: 'exit'
+        })
+      }
+    })
+  }
+
+  private exitCallback(player, exit): void {
+    console.warn('You won!') // TODO
+    console.log(player)
+    console.log(exit)
   }
 }
