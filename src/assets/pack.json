@@ -10,6 +10,11 @@
         "type": "image",
         "key": "RPGpack_sheet",
         "url": "src/assets/RPGpack_sheet.png"
+      },
+      {
+        "type": "image",
+        "key": "player",
+        "url": "src/assets/player.png"
       }
     ]
   }
