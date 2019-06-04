@@ -18,7 +18,7 @@ export class GameScene extends Phaser.Scene {
   create(): void {
     this.map = this.make.tilemap({ key: 'levelMap' })
 
-    this.tileset = this.map.addTilesetImage('RPGpack_sheet')
+    this.tileset = this.map.addTilesetImage('RPGpack_sheet', 'RPGpack_sheet', 64, 64, 1, 2)
     this.layer = this.map.createStaticLayer('Map', this.tileset, 0, 0)
     this.layer.setCollisionByProperty({ collide: true })
 
