@@ -18,6 +18,21 @@
       },
       {
         "type": "image",
+        "key": "enemy0",
+        "url": "src/assets/enemy0.png"
+      },
+      {
+        "type": "image",
+        "key": "enemy1",
+        "url": "src/assets/enemy1.png"
+      },
+      {
+        "type": "image",
+        "key": "enemy2",
+        "url": "src/assets/enemy2.png"
+      },
+      {
+        "type": "image",
         "key": "exit",
         "url": "src/assets/exit.png"
       }
