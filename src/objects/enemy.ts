@@ -1,4 +1,5 @@
 export class Enemy extends Phaser.GameObjects.Image {
+  private timeToChangeDirection: number
   private line: Phaser.Geom.Line
   private speed: number
 
@@ -12,18 +13,8 @@ export class Enemy extends Phaser.GameObjects.Image {
   }
 
   private initContainer() {
-    this.scene.tweens.add({
-      targets: this,
-      props: { y: this.y - 200 },
-      delay: 0,
-      duration: 2000,
-      ease: "Linear",
-      easeParams: null,
-      hold: 0,
-      repeat: -1,
-      repeatDelay: 0,
-      yoyo: true
-    })
+    this.timeToChangeDirection = 0
+    this.speed = 100
 
     this.scene.physics.world.enable(this)
   }
@@ -37,5 +28,25 @@ export class Enemy extends Phaser.GameObjects.Image {
     })
 
     return intersectingTiles.length === 0
+  }
+
+  private changeDirection(): void {
+    const possibleDirections = [
+      { x: 0, y: 0, angle: 0 },
+      { x: -1, y: 0, angle: 180 },
+      { x: 1, y: 0, angle: 0 },
+      { x: 0, y: -1, angle: 270 },
+      { x: 0, y: 1, angle: 90 }
+    ]
+    let randomDirection = possibleDirections[Phaser.Math.Between(0, possibleDirections.length - 1)]
+    this.body.setVelocity(randomDirection.x * this.speed, randomDirection.y * this.speed)
+    this.angle = randomDirection.angle
+  }
+
+  update(): void {
+    if (this.scene.time.now > this.timeToChangeDirection) {
+      this.changeDirection()
+      this.timeToChangeDirection = this.scene.time.now + 800
+    }
   }
 }

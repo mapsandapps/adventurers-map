@@ -23,16 +23,26 @@ export class MenuScene extends Phaser.Scene {
     this.texts.push(
       this.add.text(
         this.sys.canvas.width / 2,
-        this.sys.canvas.height / 2,
-        'PRESS X TO PLAY'
+        this.sys.canvas.height / 2 - 60,
+        'ADVENTURER\'S MAP'
       ).setOrigin(0.5, 0.5)
     )
 
     this.texts.push(
       this.add.text(
         this.sys.canvas.width / 2,
-        this.sys.canvas.height / 2 - 60,
-        'ADVENTURER\'S MAP'
+        this.sys.canvas.height / 2,
+        'Use your adventurer\'s map to escape from school.\nMake sure the teachers don\'t see you!', {
+          align: 'center'
+        }
+      ).setOrigin(0.5, 0.5)
+    )
+
+    this.texts.push(
+      this.add.text(
+        this.sys.canvas.width / 2,
+        this.sys.canvas.height / 2 + 60,
+        'PRESS X TO PLAY'
       ).setOrigin(0.5, 0.5)
     )
   }

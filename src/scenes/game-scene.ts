@@ -48,7 +48,10 @@ export class GameScene extends Phaser.Scene {
       let playerFound = enemy.lookForPlayer(this.player.body.x, this.player.body.y, this.map)
 
       if (playerFound) {
-        this.playerLost()
+        const distance = Phaser.Math.Distance.Between(this.player.body.x, this.player.body.y, enemy.x, enemy.y)
+        if (distance < 500) {
+          this.playerLost()
+        }
       }
 
       enemy.update()
@@ -77,6 +80,8 @@ export class GameScene extends Phaser.Scene {
           y: object.y,
           key: `enemy${i % 3}`
         })
+
+        this.physics.add.collider(enemy, this.layer)
 
         this.enemies.add(enemy)
       } else if (object.name === 'Exit') {
