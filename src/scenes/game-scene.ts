@@ -3,6 +3,7 @@ import { Exit } from '../objects/exit'
 import { Player } from '../objects/player'
 
 export class GameScene extends Phaser.Scene {
+  private backgroundLayer: Phaser.Tilemaps.StaticTilemapLayer
   private layer: Phaser.Tilemaps.StaticTilemapLayer
   private map: Phaser.Tilemaps.Tilemap
   private tileset: Phaser.Tilemaps.Tileset
@@ -23,6 +24,7 @@ export class GameScene extends Phaser.Scene {
     this.map = this.make.tilemap({ key: 'levelMap' })
 
     this.tileset = this.map.addTilesetImage('RPGpack_sheet', 'RPGpack_sheet', 64, 64, 1, 2)
+    this.backgroundLayer = this.map.createStaticLayer('Background', this.tileset, 0, 0)
     this.layer = this.map.createStaticLayer('Map', this.tileset, 0, 0)
     this.layer.setCollisionByProperty({ collide: true })
 
@@ -43,6 +45,7 @@ export class GameScene extends Phaser.Scene {
       .setName('mini')
       .setOrigin(0, 0)
       .setZoom(0.1)
+      .ignore(this.backgroundLayer)
   }
 
   update(): void {
