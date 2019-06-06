@@ -35,6 +35,10 @@ export class GameScene extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.player)
 
+    this.add.image(576, 20, 'parchment')
+      .setScrollFactor(0)
+      .setOrigin(0, 0)
+
     this.cameras.add(576, 20, 370, 370)
       .setName('mini')
       .setOrigin(0, 0)

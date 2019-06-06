@@ -35,6 +35,11 @@
         "type": "image",
         "key": "exit",
         "url": "src/assets/exit.png"
+      },
+      {
+        "type": "image",
+        "key": "parchment",
+        "url": "src/assets/parchment.png"
       }
     ]
   }
