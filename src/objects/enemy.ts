@@ -1,12 +1,14 @@
 export class Enemy extends Phaser.GameObjects.Image {
-  private timeToChangeDirection: number
+  private circle: Phaser.GameObjects.Arc
   private line: Phaser.Geom.Line
   private speed: number
+  private timeToChangeDirection: number
 
   constructor(params) {
     super(params.scene, params.x, params.y, params.key, params.frame)
 
     this.line = new Phaser.Geom.Line()
+    this.circle = this.scene.add.circle(this.x, this.y, 40, 0xffffff, 0.7)
 
     this.initContainer()
     this.scene.add.existing(this)
@@ -17,6 +19,8 @@ export class Enemy extends Phaser.GameObjects.Image {
     this.speed = 100
 
     this.scene.physics.world.enable(this)
+
+    this.scene.cameras.main.ignore(this.circle) // show emphasis on minimap but not main map
   }
 
   public lookForPlayer(playerX, playerY, map): boolean {
@@ -45,6 +49,8 @@ export class Enemy extends Phaser.GameObjects.Image {
 
   update(): void {
     if (this.active) {
+      this.circle.setPosition(this.x, this.y)
+
       if (this.scene.time.now > this.timeToChangeDirection) {
         this.changeDirection()
         this.timeToChangeDirection = this.scene.time.now + 800
