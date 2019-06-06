@@ -44,9 +44,11 @@ export class Enemy extends Phaser.GameObjects.Image {
   }
 
   update(): void {
-    if (this.scene.time.now > this.timeToChangeDirection) {
-      this.changeDirection()
-      this.timeToChangeDirection = this.scene.time.now + 800
+    if (this.active) {
+      if (this.scene.time.now > this.timeToChangeDirection) {
+        this.changeDirection()
+        this.timeToChangeDirection = this.scene.time.now + 800
+      }
     }
   }
 }

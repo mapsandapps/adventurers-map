@@ -13,7 +13,7 @@ export class Player extends Phaser.GameObjects.Image {
 
   private initImage() {
     this.health = 1
-    this.speed = 100
+    this.speed = 200
 
     this.setOrigin(0.5, 0.5)
     this.setDepth(0)
@@ -21,13 +21,14 @@ export class Player extends Phaser.GameObjects.Image {
     this.cursors = this.scene.input.keyboard.createCursorKeys()
 
     this.scene.physics.world.enable(this)
+    this.body.setImmovable(true)
   }
 
   update(): void {
     if (this.active) {
       this.handleInput()
     } else {
-      this.destroy()
+      this.body.setVelocity(0)
     }
   }
 

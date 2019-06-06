@@ -12,6 +12,8 @@ export class GameScene extends Phaser.Scene {
   private exit: Exit
   private player: Player
 
+  private gameInPlay: boolean
+
   constructor() {
     super({
       key: "GameScene"
@@ -33,7 +35,7 @@ export class GameScene extends Phaser.Scene {
     this.convertObjects()
 
     this.physics.add.collider(this.player, this.layer)
-    this.physics.add.collider(this.player, this.exit, this.exitCallback)
+    this.physics.add.collider(this.player, this.exit, this.exitCallback, null, this)
 
     this.cameras.main.startFollow(this.player)
 
@@ -46,6 +48,8 @@ export class GameScene extends Phaser.Scene {
       .setOrigin(0, 0)
       .setZoom(0.1)
       .ignore(this.backgroundLayer)
+
+    this.gameInPlay = true
   }
 
   update(): void {
@@ -56,8 +60,8 @@ export class GameScene extends Phaser.Scene {
 
       if (playerFound) {
         const distance = Phaser.Math.Distance.Between(this.player.body.x, this.player.body.y, enemy.x, enemy.y)
-        if (distance < 500) {
-          this.playerLost()
+        if (distance < 500 && this.gameInPlay) {
+          this.gameLost(enemy)
         }
       }
 
@@ -65,8 +69,35 @@ export class GameScene extends Phaser.Scene {
     }, this)
   }
 
-  private playerLost(): void {
-    console.warn('You lost!')
+  private restartScene(): void {
+    this.scene.restart()
+  }
+
+  private setObjectsInactive(): void {
+    this.player.setActive(false)
+    this.enemies.children.each(enemy => {
+      enemy.setActive(false)
+    })
+  }
+
+  private gameLost(enemy): void {
+    this.gameInPlay = false
+    this.physics.moveToObject(enemy, this.player, null, 500)
+    this.time.addEvent({
+      delay: 4000,
+      callback: this.restartScene,
+      callbackScope: this
+    })
+
+    this.setObjectsInactive()
+
+    this.add.text(
+      this.player.x,
+      this.player.y,
+      'Oh no!\nOne of the teachers caught you trying to escape!', {
+        align: 'center'
+      }
+    ).setOrigin(0.5, 0.5)
   }
 
   private convertObjects(): void {
@@ -89,6 +120,7 @@ export class GameScene extends Phaser.Scene {
         })
 
         this.physics.add.collider(enemy, this.layer)
+        this.physics.add.collider(enemy, this.player)
 
         this.enemies.add(enemy)
       } else if (object.name === 'Exit') {
@@ -102,9 +134,22 @@ export class GameScene extends Phaser.Scene {
     })
   }
 
-  private exitCallback(player, exit): void {
-    console.warn('You won!') // TODO
-    console.log(player)
-    console.log(exit)
+  private exitToWinScene(): void {
+    this.setObjectsInactive()
+    this.scene.stop()
+    this.scene.get('WinScene').scene.start()
+  }
+
+  private exitCallback(): void {
+    if (this.gameInPlay) {
+      this.gameInPlay = false
+      this.cameras.main.fadeOut(1000)
+      this.cameras.getCamera('mini').fadeOut(1000)
+      this.time.addEvent({
+        delay: 1000,
+        callback: this.exitToWinScene,
+        callbackScope: this
+      })
+    }
   }
 }
